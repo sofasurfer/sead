@@ -1,0 +1,40 @@
+<div id="tv{$tv->id}" name="tv{$tv->id}"></div>
+<script type="text/javascript">
+// <![CDATA[
+{literal}
+MODx.combo.Products = function(config) {
+    config = config || {};
+    Ext.applyIf(config,{
+        name: 'products'
+        ,hiddenName: 'products'
+        ,displayField: 'name'
+        ,valueField: 'code1'
+        ,fields: ['name','code1']
+        ,url: MODx.config.connectors_url+'sead/tours.php'
+        ,baseParams: {
+            action: 'getList',
+            lang: 'en',
+            sort: 'name'
+        }
+    });
+    MODx.combo.Products.superclass.constructor.call(this,config);
+};
+Ext.extend(MODx.combo.Products,MODx.combo.ComboBox);
+Ext.reg('sead-combo-products',MODx.combo.Products);
+
+MODx.load({
+{/literal}
+    xtype: 'sead-combo-products'
+    ,name: 'tv{$tv->id}'
+    ,hiddenName: 'tv{$tv->id}'
+    ,transform: 'tv{$tv->id}'
+    ,id: 'tv{$tv->id}'
+    ,width: 300
+    ,value: '{$tv->value}'
+{literal}
+    ,listeners: { 'select': { fn:MODx.fireResourceFormChange, scope:this}}
+});
+{/literal}
+// ]]>
+
+</script>

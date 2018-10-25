@@ -1,0 +1,31 @@
+<?php
+$xpdo_meta_map['seadRateType']= array (
+  'package' => 'SEAD',
+  'table' => 'rates_type',
+  'fields' => 
+  array (
+    'name' => '',
+  ),
+  'fieldMeta' => 
+  array (
+    'name' => 
+    array (
+      'dbtype' => 'varchar',
+      'precision' => '50',
+      'phptype' => 'string',
+      'null' => false,
+      'default' => '',
+    ),
+  ),
+  'composites' => 
+  array (
+    'Rate' => 
+    array (
+      'class' => 'seadRate',
+      'local' => 'id',
+      'foreign' => 'typeid',
+      'cardinality' => 'many',
+      'owner' => 'local',
+    ),
+  ),
+);

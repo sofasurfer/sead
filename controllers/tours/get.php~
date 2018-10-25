@@ -1,0 +1,80 @@
+<?php
+/**
+ * Loads Tours Detail Page
+ *
+ * @package modx
+ */
+ 
+ /* get SEAD data package */
+$modx->addPackage('SEAD',$modx->getOption('core_path').'components/sead/model/','sead_');
+
+// load manager lexicon
+$modx->lexicon->load('sead:manager');
+
+if (empty($_REQUEST['id'])) return $modx->error->failure("Error no Tour ID");
+$tour = $modx->getObject('seadTour',$_REQUEST['id']);
+if ($tour == null) return $modx->error->failure("Tour not found: [" . $_REQUEST['id'] . "] [" . $tour . "]" );
+
+/* register JS scripts */
+/*
+$modx->regClientStartupScript($modx->config['assets_url'].'components/tinymce/jscripts/tiny_mce/tiny_mce.js');
+$modx->regClientStartupScript($modx->config['assets_url'].'components/tinymce/xconfig.js');
+$modx->regClientStartupScript($modx->config['assets_url'].'components/tinymce/tiny.min.js');
+$modx->regClientStartupScript($modx->getOption('site_url').'assets/components/sead/modext/Ext.ux.TinyMCE.min.js');
+*/
+
+/* register JS scripts */
+$rte = 'TinyMCE';
+/*
+ *  Initialize RichText Editor
+ */
+/* Set which RTE */
+if ( !empty($rte)) {
+    /* invoke OnRichTextEditorRegister event */
+    $text_editors = $modx->invokeEvent('OnRichTextEditorRegister');
+    $modx->smarty->assign('text_editors',$text_editors);
+
+    $replace_richtexteditor = array('liveaboard-description');
+    $modx->smarty->assign('replace_richtexteditor',$replace_richtexteditor);
+
+    /* invoke OnRichTextEditorInit event */
+    $onRichTextEditorInit = $modx->invokeEvent('OnRichTextEditorInit',array(
+        'editor' => $rte,
+        'elements' => $replace_richtexteditor,
+        'id' => $tour->get('typeid'),
+        'resource' => &$tour,
+        'mode' => modSystemEvent::MODE_UPD,
+    ));
+    if (is_array($onRichTextEditorInit)) {
+        $onRichTextEditorInit = implode('',$onRichTextEditorInit);
+        $modx->smarty->assign('onRichTextEditorInit',$onRichTextEditorInit);
+    }
+}
+
+$modx->regClientStartupScript($modx->getOption('site_url').'assets/components/tinymce/jscripts/tiny_mce/tiny_mce.js?v=210pl');
+$modx->regClientStartupScript($modx->getOption('site_url').'assets/components/tinymce/xconfig.js?v=210pl');
+$modx->regClientStartupScript($modx->getOption('site_url').'assets/components/tinymce/tiny.js?v=210pl');
+$modx->regClientStartupScript($modx->getOption('site_url').'assets/components/tinymce/tinymce.panel.js?v=210pl');
+
+$modx->regClientStartupScript($modx->getOption('site_url').'assets/components/sead/modext/sead.combo.js');
+$modx->regClientStartupScript($modx->getOption('site_url').'assets/components/sead/modext/sead.rate-list-grid.js');
+$modx->regClientStartupScript($modx->getOption('site_url').'assets/components/sead/modext/sead.tours-update-panel.js');
+$modx->regClientStartupScript($modx->getOption('site_url').'assets/components/sead/modext/sead.tours-update.js');
+$modx->regClientStartupHTMLBlock('
+
+<script type="text/javascript">
+// <![CDATA[
+Ext.onReady(function() {
+	MODx.load({
+		xtype: "sead-page-tour-update"
+		,tour: "'.$tour->get('id').'"
+		,tourtype: "'.$tour->get('typeid').'"
+		,product: "'.$tour->get('productcode').'"
+		,which_editor: "' . $rte . '"
+	});
+});
+// ]]>
+</script>');
+
+
+return '<div id="sead-panel-tour-update-div"></div>';

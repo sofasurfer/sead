@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/!svn/ver/22/sead/trunk/core/components/sead/processors/liveaboards
+END
+copy.php
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/!svn/ver/22/sead/trunk/core/components/sead/processors/liveaboards/copy.php
+END
+getlist.php
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/!svn/ver/22/sead/trunk/core/components/sead/processors/liveaboards/getlist.php
+END
+updatefromgrid.php
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/!svn/ver/22/sead/trunk/core/components/sead/processors/liveaboards/updatefromgrid.php
+END
+get.php
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/22/sead/trunk/core/components/sead/processors/liveaboards/get.php
+END
+delete.php
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/!svn/ver/22/sead/trunk/core/components/sead/processors/liveaboards/delete.php
+END
+update.php
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/!svn/ver/22/sead/trunk/core/components/sead/processors/liveaboards/update.php
+END
+create.php
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/!svn/ver/22/sead/trunk/core/components/sead/processors/liveaboards/create.php
+END

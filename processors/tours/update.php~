@@ -1,0 +1,164 @@
+<?php
+/**
+ * Update a Tour
+ *
+ * @param integer $id The ID of the tour
+ *
+ * @package modx
+ * @subpackage processors.tour
+ */
+ 
+ // get tour data
+$_DATA = $scriptProperties;
+
+// check if tour exist
+if (empty($_DATA['id'])) return $modx->error->failure("Error no Tour ID");
+$tour = $modx->getObject('seadTour',$_DATA['id']);
+if ($tour == null) return $modx->error->failure("Error no Tour found");
+
+
+$tour->fromArray($_DATA);
+
+
+// Check for languages
+$nameArray = array();
+$nameArray['de'] = $_DATA['name_de'];
+$nameArray['en'] = $_DATA['name_en'];
+$tour->set('name',$modx->toJson($nameArray) );
+
+
+$sDeskArray = array();
+$sDeskArray['de'] = $_DATA['shortdescription_de'];
+$sDeskArray['en'] = $_DATA['shortdescription_en'];
+$tour->set('shortdescription',$modx->toJson($sDeskArray) );
+
+
+$descriptionDe = $modx->getObject('seadContent',array('contentkey'=>$_DATA['description'],'languagecode'=>'de') ); 
+if( empty($descriptionDe) ){
+	return $modx->error->failure("Error content not found [" . $_DATA['description'] . "] DE" );
+}
+$descriptionDe->set('contenthtml',$_DATA['description_de']);
+$descriptionDe->save();
+
+$descriptionEn = $modx->getObject('seadContent',array('contentkey'=>$_DATA['description'],'languagecode'=>'en') ); 
+if( empty($descriptionEn) ){
+	return $modx->error->failure("Error content not found [" . $_DATA['description'] . "] EN" );
+}
+$descriptionEn->set('contenthtml',$_DATA['description_en']);
+$descriptionEn->save();
+
+
+$itineraryDe = $modx->getObject('seadContent',array('contentkey'=>$_DATA['itinerary'],'languagecode'=>'de') ); 
+if( empty($itineraryDe) ){
+	return $modx->error->failure("Error content not found [" . $_DATA['itinerary'] . "] DE" );
+}
+$itineraryDe->set('contenthtml',$_DATA['itinerary_de']);
+$itineraryDe->save();
+
+$itineraryEn = $modx->getObject('seadContent',array('contentkey'=>$_DATA['itinerary'],'languagecode'=>'en') ); 
+if( empty($itineraryEn) ){
+	return $modx->error->failure("Error content not found [" . $_DATA['itinerary'] . "] EN" );
+}
+$itineraryEn->set('contenthtml',$_DATA['itinerary_en']);
+$itineraryEn->save();
+
+
+// check if active
+if( !empty( $_DATA['active'] ) && $_DATA['active'] == 1 ){
+	$tour->set('active', 1 );
+}else{
+	$tour->set('active', 0 );
+}
+
+// check for frequency
+$frequency = array();
+if( !empty($_DATA['frequency1']) ){
+	$frequency[] = "1";
+}
+if( !empty($_DATA['frequency2']) ){
+	$frequency[] = "2";
+}
+if( !empty($_DATA['frequency3']) ){
+	$frequency[] = "3";
+}
+if( !empty($_DATA['frequency4']) ){
+	$frequency[] = "4";
+}
+if( !empty($_DATA['frequency5']) ){
+	$frequency[] = "5";
+}
+if( !empty($_DATA['frequency6']) ){
+	$frequency[] = "6";
+}
+if( !empty($_DATA['frequency7']) ){
+	$frequency[] = "7";
+}
+if( !empty($_DATA['frequency8']) ){
+	$frequency[] = "8";
+}
+
+$tour->set('frequency', implode(',',$frequency) );
+
+$theme = array();
+if( !empty($_DATA['theme1']) ){
+	$theme[] = "1";
+}
+if( !empty($_DATA['theme2']) ){
+	$theme[] = "2";
+}
+if( !empty($_DATA['theme3']) ){
+	$theme[] = "3";
+}
+if( !empty($_DATA['theme4']) ){
+	$theme[] = "4";
+}
+if( !empty($_DATA['theme5']) ){
+	$theme[] = "5";
+}
+if( !empty($_DATA['theme6']) ){
+	$theme[] = "6";
+}
+if( !empty($_DATA['theme7']) ){
+	$theme[] = "7";
+}
+if( !empty($_DATA['theme8']) ){
+	$theme[] = "8";
+}
+if( !empty($_DATA['theme9']) ){
+	$theme[] = "9";
+}
+
+$tour->set('theme', implode(',',$theme) );
+
+
+$segment = array();
+if( !empty($_DATA['segment1']) ){
+	$segment[] = "1";
+}
+if( !empty($_DATA['segment2']) ){
+	$segment[] = "2";
+}
+if( !empty($_DATA['segment3']) ){
+	$segment[] = "3";
+}
+
+$tour->set('segment', implode(',',$segment) );
+
+// get countryid
+$destination = $tour->getOne('Destination');
+if( !empty($destination) ){
+	$tour->set('countryid', $destination->get('countryid') );
+}else{
+	$tour->set('countryid', 0 );
+}	
+
+
+$tour->set('lastupdate', time() );
+$tour->set('editor', $modx->user->get('username') );
+
+if ( $tour->save() == false ) {
+    return $modx->error->failure("Error while saving tour information");
+}
+
+
+return $modx->error->success('',$tour);

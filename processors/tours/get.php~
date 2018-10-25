@@ -1,0 +1,112 @@
+<?php
+/**
+ * Get Tour Detail Page
+ *
+ * @param integer $id The ID of the tour
+ *
+ * @package modx
+ * @subpackage processors.tour
+ */
+// set log level
+
+
+function addContentLanguage($modx,$contentCode,$languageCode,$htmlContent){
+
+
+	$contentItem = $modx->newObject('seadContent'); 
+	$contentItem->set('contentkey',$contentCode);
+	$contentItem->set('languagecode',$languageCode);
+	$contentItem->set('contenthtml',$htmlContent);
+	$contentItem->save();
+
+}
+
+$_DATA = $modx->fromJSON($scriptProperties['data']);
+
+$_DATA['id'] = $scriptProperties['id'];
+
+if (empty($_DATA['id'])) return $modx->error->failure("Error no Tour ID in post jSon data!" . print_r($scriptProperties,true) );
+$tour = $modx->getObject('seadTour',$_DATA['id']);
+if ($tour == null) return $modx->error->failure("Error no Tour found:" . $_DATA['id'] );
+
+$tourArray = $tour->toArray();
+
+$tourArray['datestart'] = date("d.m.Y",$tourArray['datestart']);
+$tourArray['dateend'] = date("d.m.Y",$tourArray['dateend']);	
+
+// Check for multilingual content
+$nameArray = $modx->fromJSON($tourArray['name']);
+if( !empty($nameArray) ){
+
+	$tourArray['name_de'] = $nameArray['de'];
+	$tourArray['name_en'] = $nameArray['en'];
+}else{
+
+	$nameArray = array();
+	$nameArray['de'] = $tourArray['name'];
+	$nameArray['en'] = $tourArray['name'];
+	$tourArray['name_de'] = $nameArray['de'];
+	$tourArray['name_en'] = $nameArray['en'];
+	$tour->set('name',$modx->toJson($nameArray) );
+	$tour->save();
+}
+
+$sDeskArray = $modx->fromJSON($tourArray['shortdescription']);
+if( !empty($sDeskArray) ){
+
+	$tourArray['shortdescription_de'] = $sDeskArray['de'];
+	$tourArray['shortdescription_en'] = $sDeskArray['en'];
+}else{
+
+	$sDeskArray = array();
+	$sDeskArray['de'] = $tourArray['shortdescription'];
+	$sDeskArray['en'] = $tourArray['shortdescription'];
+	$tourArray['shortdescription_de'] = $sDeskArray['de'];
+	$tourArray['shortdescription_en'] = $sDeskArray['en'];
+	$tour->set('shortdescription',$modx->toJson($sDeskArray) );
+	$tour->save();
+}
+
+
+if( strlen($tourArray['description']) != 23 ){
+
+	// Add new description
+	$contentCode = uniqid('', true);
+	addContentLanguage($modx,$contentCode,'de',$tourArray['description']);
+	addContentLanguage($modx,$contentCode,'en',$tourArray['description']);
+	$tourArray['description_de'] = $tourArray['description'];
+	$tourArray['description_en'] = $tourArray['description'];
+	$tourArray['description'] = $contentCode;
+	$tour->set('description', $contentCode );
+	$tour->save();
+}else{
+	$descriptionDe = $modx->getObject('seadContent',array('contentkey'=>$tourArray['description'],'languagecode'=>'de') ); 
+	$tourArray['description_de'] = $descriptionDe->get('contenthtml');
+	$descriptionEn = $modx->getObject('seadContent',array('contentkey'=>$tourArray['description'],'languagecode'=>'en') ); 
+	$tourArray['description_en'] = $descriptionEn->get('contenthtml');
+
+}
+
+if( strlen($tourArray['itinerary']) != 23 ){
+
+	// Add new description
+	$contentCode = uniqid('', true);
+	addContentLanguage($modx,$contentCode,'de',$tourArray['itinerary']);
+	addContentLanguage($modx,$contentCode,'en',$tourArray['itinerary']);
+	$tourArray['itinerary_de'] = $tourArray['itinerary'];
+	$tourArray['itinerary_en'] = $tourArray['itinerary'];
+	$tourArray['itinerary'] = $contentCode;
+	$tour->set('itinerary', $contentCode );
+	$tour->save();
+}else{
+	$itineraryDe = $modx->getObject('seadContent',array('contentkey'=>$tourArray['itinerary'],'languagecode'=>'de') ); 
+	$tourArray['itinerary_de'] = $itineraryDe->get('contenthtml');
+	$itineraryEn = $modx->getObject('seadContent',array('contentkey'=>$tourArray['itinerary'],'languagecode'=>'en') ); 
+	$tourArray['itinerary_en'] = $itineraryEn->get('contenthtml');
+
+}
+
+$modx->log(modX::LOG_LEVEL_INFO, "Get Tour details:" . print_r($tourArray,true) );
+
+return $modx->error->success('',$tourArray);
+

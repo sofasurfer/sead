@@ -1,0 +1,67 @@
+[[!FormIt? 
+    &hooks=`hookbooking,FormItLog,email,redirect` 
+    &logfile=`[[++formitlog.logfile]]`     
+    &emailUseFieldForSubject=`1` 
+    &emailTpl=`BookingFormEmail` 
+    &emailFromName=`[[+fromname]]` 
+    &emailTo=`info@southeastasiadreams.com` 
+    &emailBCC=`webmaster@sofasurfer.org`  
+    &emailCC=`[[+email]]` 
+    &redirectTo=`[[++cultureKey:is=`en`:then=`1232`:else=`2177`]]` 
+    &validate=`name:required, email:email:required, bookingArrival:required, bookingDeparture:required`
+]] 
+[[!+fi.error.error_message:notempty=`<p>[[!+fi.error.error_message]]</p>`]]
+<form id="contact-form" action="[[~[[*id]]]]?checkout=1" method="post" class="form form-horizontal contact-form-email">
+    <div class="checkout_form">
+        <input type="hidden" name="nospam:blank" value="" />
+        <input type="hidden" name="cachekey" value="[[+cachekey]]" />
+        <input type="hidden" name="fromname" value="[[++site_name]]" />
+        <input type="hidden" name="subject" value="Booking Confirmation: [[++site_name]]" />
+        <div class="clearfix">
+            <div class="col-sm-12">
+                <label for="name" class="control-label">Name:<span class="red">*</span></label>
+                <input type="text" name="name" id="name" value="[[!+fi.name]]" />
+                <span class="errorspace">[[!+fi.error.name]]</span>
+            </div>
+        </div>
+        <div class="clearfix">
+            <div class="col-sm-6">
+                <label for="bookingArrival">Arrival Date: <span class="red">*</span></label>
+                <input type="text" class="date" name="bookingArrival" id="bookingArrival" value="[[!+fi.bookingArrival]]" />
+                <span class="errorspace">[[!+fi.error.bookingArrival]]</span>
+                <label for="phone">Phone:</label>
+                <input type="text" name="phone" id="phone" value="[[!+fi.phone]]" />
+                <span class="errorspace">[[!+fi.error.phone]]</span>
+            </div>
+            <div class="col-sm-6">
+                <label for="bookingDeparture">Departure Date: <span class="red">*</span></label>
+                <input type="text" class="date" name="bookingDeparture" id="bookingDeparture" value="[[!+fi.bookingDeparture]]" />
+                <span class="errorspace">[[!+fi.error.bookingDeparture]]</span>
+                <label for="nationality">Nationality:</label>
+                <input type="text" name="nationality" id="nationality" value="[[!+fi.nationality]]" />
+                <span class="errorspace">[[!+fi.error.fax]]</span>
+            </div>
+        </div>
+        <div class="clearfix">
+            <div class="col-sm-12">
+                <label for="email" class="control-label">Email:<span class="red">*</span></label>
+                <input type="text" name="email" id="email" value="[[!+fi.email]]" />
+                <span class="errorspace">[[!+fi.error.email]]</span>
+            </div>
+        </div>
+        <div class="space"></div>
+        <div class="clearfix">
+            <div class="col-sm-12">
+                <label for="text">Remarks:</label>
+                <br/>
+                <span class="error">[[!+fi.error.text]]</span>
+                <textarea name="text" id="text" rows="7" value="[[!+fi.text]]" style="width:100%;">[[!+fi.text]]</textarea>
+            </div>
+        </div>
+        <div class="space"></div>
+        <div class="form-buttons col-sm-12">
+            <input type="submit" class="btn btn btn-primary" value="Submit Booking">
+        </div>
+        <br class="space" />
+    </div>
+</form>

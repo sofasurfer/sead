@@ -1,0 +1,161 @@
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/!svn/ver/32/sead/trunk/core/components/sead/model/SEAD/mysql
+END
+seadliveaboard.map.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/!svn/ver/22/sead/trunk/core/components/sead/model/SEAD/mysql/seadliveaboard.map.inc.php
+END
+seadtour.class.php
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/!svn/ver/22/sead/trunk/core/components/sead/model/SEAD/mysql/seadtour.class.php
+END
+seadcurrency.class.php
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/!svn/ver/22/sead/trunk/core/components/sead/model/SEAD/mysql/seadcurrency.class.php
+END
+seadrate.class.php
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/!svn/ver/22/sead/trunk/core/components/sead/model/SEAD/mysql/seadrate.class.php
+END
+seadratetype.class.php
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/!svn/ver/22/sead/trunk/core/components/sead/model/SEAD/mysql/seadratetype.class.php
+END
+seadboatspecvalue.class.php
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/!svn/ver/22/sead/trunk/core/components/sead/model/SEAD/mysql/seadboatspecvalue.class.php
+END
+seadboatspec.class.php
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/!svn/ver/22/sead/trunk/core/components/sead/model/SEAD/mysql/seadboatspec.class.php
+END
+seaddestination.map.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/!svn/ver/32/sead/trunk/core/components/sead/model/SEAD/mysql/seaddestination.map.inc.php
+END
+seadboatcabin.map.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/!svn/ver/22/sead/trunk/core/components/sead/model/SEAD/mysql/seadboatcabin.map.inc.php
+END
+seadboatschedule.class.php
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/!svn/ver/22/sead/trunk/core/components/sead/model/SEAD/mysql/seadboatschedule.class.php
+END
+seadcountry.class.php
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/!svn/ver/22/sead/trunk/core/components/sead/model/SEAD/mysql/seadcountry.class.php
+END
+seadduration.map.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/!svn/ver/22/sead/trunk/core/components/sead/model/SEAD/mysql/seadduration.map.inc.php
+END
+seadboat.map.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/!svn/ver/22/sead/trunk/core/components/sead/model/SEAD/mysql/seadboat.map.inc.php
+END
+seadliveaboard.class.php
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/!svn/ver/22/sead/trunk/core/components/sead/model/SEAD/mysql/seadliveaboard.class.php
+END
+seadtour.map.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/!svn/ver/28/sead/trunk/core/components/sead/model/SEAD/mysql/seadtour.map.inc.php
+END
+seadcurrency.map.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/!svn/ver/22/sead/trunk/core/components/sead/model/SEAD/mysql/seadcurrency.map.inc.php
+END
+seadrate.map.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/!svn/ver/31/sead/trunk/core/components/sead/model/SEAD/mysql/seadrate.map.inc.php
+END
+seadboatspecvalue.map.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/!svn/ver/22/sead/trunk/core/components/sead/model/SEAD/mysql/seadboatspecvalue.map.inc.php
+END
+seadratetype.map.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/!svn/ver/22/sead/trunk/core/components/sead/model/SEAD/mysql/seadratetype.map.inc.php
+END
+seadboatspec.map.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/!svn/ver/22/sead/trunk/core/components/sead/model/SEAD/mysql/seadboatspec.map.inc.php
+END
+seaddestination.class.php
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/!svn/ver/22/sead/trunk/core/components/sead/model/SEAD/mysql/seaddestination.class.php
+END
+seadboatschedule.map.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/!svn/ver/22/sead/trunk/core/components/sead/model/SEAD/mysql/seadboatschedule.map.inc.php
+END
+seadboatcabin.class.php
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/!svn/ver/22/sead/trunk/core/components/sead/model/SEAD/mysql/seadboatcabin.class.php
+END
+seadcountry.map.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/!svn/ver/22/sead/trunk/core/components/sead/model/SEAD/mysql/seadcountry.map.inc.php
+END
+seadboat.class.php
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/!svn/ver/22/sead/trunk/core/components/sead/model/SEAD/mysql/seadboat.class.php
+END
+seadduration.class.php
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/!svn/ver/22/sead/trunk/core/components/sead/model/SEAD/mysql/seadduration.class.php
+END

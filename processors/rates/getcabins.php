@@ -1,0 +1,148 @@
+<?php
+/**
+ * Gets Tours
+ *
+ * @param integer $start (optional) The record to start at. Defaults to 0.
+ * @param integer $limit (optional) The number of records to limit to. Defaults
+ * to 10.
+ * @param string $sort (optional) The column to sort by. Defaults to name.
+ * @param string $dir (optional) The direction of the sort. Defaults to ASC.
+ *
+ * @package modx
+ */
+
+// set log level
+$modx->setLogLevel(modX::LOG_LEVEL_INFO);
+
+// load manager lexicon
+$modx->lexicon->load('sead:manager');
+
+/* setup default properties */
+$isLimit = !empty($scriptProperties['limit']);
+$start = $modx->getOption('start',$scriptProperties,0);
+$limit = $modx->getOption('limit',$scriptProperties,10);
+$sort = $modx->getOption('sort',$scriptProperties,'name,sortorder');
+$dir = $modx->getOption('dir',$scriptProperties,'ASC');
+$menu = $modx->getOption('menu',$scriptProperties,true);
+$onlyactive = $modx->getOption('onlyactive',$scriptProperties,false);
+$returnarray = $modx->getOption('returnarray',$scriptProperties,false);  
+
+
+/* Check if Liveaboard Cabin Rates */
+if( empty( $scriptProperties['boatid'] ) ){
+
+	return $modx->error->failure("Invalid boat ID");
+
+}
+
+
+/* Get all rates for this product in case there are double */
+$allRatesArray = array();
+$allRates = $modx->getCollection('seadRate', array('seadRate.productcode' => $scriptProperties['productcode'] ) );
+foreach ($allRates as $allRate ){
+
+	$allRatesArray[ $allRate->get('id') ] = $allRate->toArray();
+
+
+}
+
+/* Get cabins */
+$CABINTYPES = array(
+	'1'	=> 'VIP Cabin',
+	'7'	=> 'Master Cabin',
+	'2'	=> 'Deluxe Double',
+	'3'	=> 'Standard Cabin',
+	'9'	=> 'Single Bed Cabin',
+	'4'	=> 'Double Bed Cabin',
+	'5'	=> 'Twin Bed Cabin',
+	'10'	=> 'Triple Bed Cabin',
+	'6'	=> '4- Bed Cabin',
+	'8'	=> 'Bunk Bed Cabin'
+);
+
+$c = $modx->newQuery('seadBoatCabin');	
+
+$c->where(array('seadBoatCabin.boatid' => $scriptProperties['boatid'] ) );
+
+$c->groupby('typeid');
+
+// get total count
+$count = $modx->getCount('seadBoatCabin',$c);
+
+
+// select fields
+$c->select('
+    `seadBoatCabin`.*
+');
+
+
+// get collection
+$boatcabins = $modx->getCollection('seadBoatCabin',$c);
+
+
+/* iterate through cabins */
+$list = array();
+$cabinArray = array();
+foreach( $boatcabins as $boatcabin ){
+
+	// Get cabin rates
+	$rateItem = $modx->getObject('seadRate', array(
+		'seadRate.productcode' => $scriptProperties['productcode'],
+		'seadRate.typeid' => $boatcabin->get('typeid')
+	));
+
+	// Check if rate exist
+	if( empty($rateItem) ){
+		
+		// Add new rate
+		$rateItem = $modx->newObject('seadRate');
+		$rateItem->set('productcode', $scriptProperties['productcode'] );	
+		$rateItem->set('currency', 'USD' );			
+		$rateItem->set('price', '0' );
+		$rateItem->set('categoryid', 0 );
+		$rateItem->set('typeid', $boatcabin->get('typeid') );
+
+		if( $rateItem->save() == false ){
+			return $modx->error->failure("New rate could not be added");
+		}
+
+	}
+
+
+	$rateArray = $rateItem->toArray();
+
+	$rateArray['cabinname'] = $CABINTYPES[ $boatcabin->get('typeid') ];
+
+	$list[] = $rateArray;
+
+	// revove rate from list if exist
+	unset( $allRatesArray[ $rateArray['id'] ] );
+}
+
+
+// Check for invalid rates
+foreach( $allRatesArray as $rateInvalid ){
+
+	$rate = $modx->getObject('seadRate', $rateInvalid['id'] );
+	if ($rate == null) return $modx->error->failure("Error no Rate found");
+
+	if ( $rate->remove() == false ) {
+	    return $modx->error->failure("Error while deleting rate");
+	}
+
+	/*$rateInvalid['cabinname'] = "<span style=\"color:red;text-decoration: line-through;\">" . $CABINTYPES[ $rateInvalid['typeid'] ] . "</span>";
+
+	$list[] = $rateInvalid;
+	$count++;*/
+
+}
+
+// log query  
+// $modx->log(modX::LOG_LEVEL_INFO, "Processor getCabinRates:  $count \n" .$c->toSql() . "\n" . print_r($scriptProperties,true) . "\n" );
+
+return $this->outputArray($list,$count);
+
+
+
+
+

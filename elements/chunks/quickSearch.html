@@ -1,0 +1,48 @@
+<div class="booking_form">
+    <h2 id="quicksearch-title" data-toggle="collapse" data-target="#quicksearch">[[%quick_search_title? &namespace=`sead` ]]</h2>
+    <form action="[[++cultureKey:is=`en`:then=`[[~819]]`:else=`[[~1603]]`]]" method="get" onsubmit="return validateQuickSearch();">
+        <span>                        
+            <div id="quicksearch-none" class='selectBox' show="[[+open]]">                            
+                <select id="trip" name="trip" onchange="setCountryDropdown();" >
+                    <option value="0">— [[%select? &namespace=`sead` ]] —</option>
+                    <option value="1">[[%quick_search_type1? &namespace=`sead` ]]</option>
+                    <option value="2">[[%quick_search_type2? &namespace=`sead` ]]</option>
+                    <option value="4">[[%quick_search_type4? &namespace=`sead` ]]</option>
+                    <option value="5">[[%quick_search_type5? &namespace=`sead` ]]</option>
+                    <option value="6">[[%quick_search_type6? &namespace=`sead` ]]</option>
+                    <option value="7">[[%quick_search_type7? &namespace=`sead` ]]</option>
+                </select>
+            </div>
+        </span>
+        <span>
+            <label>[[%country? &namespace=`sead` ]]:</label>
+            <div class='selectBox'>
+                <select  id="country" name="country" onchange="setDestinationDropdown();">
+                    <option value="0">— [[%selecttrip? &namespace=`sead` ]] —</option>
+                </select>
+            </div>
+        </span>
+        <span>
+            <label>[[%destination? &namespace=`sead` ]]:</label>
+            <div class='selectBox'>
+                <select  id="destination" name="destination">
+                    <option value="0">— [[%selectcountry? &namespace=`sead` ]] —</option>
+                </select>
+            </div>
+        </span>
+        <span class="datetime-style text-left">
+            <label>[[%arrival? &namespace=`sead` ]]:</label>
+            <div class='selectBox'>
+                <input type="text" id="arrival" class="input-small" name="arrival" />
+            </div>
+        </span>
+        <span class="datetime-style text-right">
+            <label>[[%departure? &namespace=`sead` ]]:</label>
+            <div class='selectBox'>
+                <input type="text" id="departure" class="input-small" name="departure" />
+            </div>
+        </span>
+        <button type="submit" class="btn navbar-right">[[%search? &namespace=`sead` ]]</button>
+        <input type="hidden" id="searchurl" value="[[++cultureKey:is=`en`:then=`[[~819]]`:else=`[[~1603]]`]]" />
+    </form>
+</div>

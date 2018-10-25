@@ -1,0 +1,43 @@
+<?php
+/**
+ * Update a Liveaboard
+ *
+ * @param integer $id The ID of the liveaboard
+ *
+ * @package modx
+ * @subpackage processors.liveaboard
+ */
+ 
+ // set log level
+$modx->setLogLevel(modX::LOG_LEVEL_INFO);
+
+
+$_DATA = $scriptProperties;
+
+if (empty($_DATA['id'])) return $modx->error->failure("Error no Liveaboard ID");
+$liveaboard = $modx->getObject('seadLiveAboard',$_DATA['id']);
+if ($liveaboard == null) return $modx->error->failure("Error no Liveaboard found");
+
+
+// update 
+$liveaboard->fromArray($_DATA);
+
+if( !empty( $_DATA['active'] ) && $_DATA['active'] == 1 ){
+	$liveaboard->set('active', 1 );
+}else{
+	$liveaboard->set('active', 0 );
+}
+
+// get countryid
+$destination = $liveaboard->getOne('Destination');
+$liveaboard->set('countryid', $destination->get('countryid') );
+
+
+if ( $liveaboard->save() == false ) {
+    return $modx->error->failure("Error while saving liveaboard information");
+}
+
+// delete destination cache file"
+$modx->log(modX::LOG_LEVEL_ERROR, "Update Liveaboard :" . $_DATA['id'] . "\nCode: " . $liveaboard->get('productcode') . "\nRates Added: $added Deleted: $deleted " . print_r($_DATA,true) );
+
+return $modx->error->success();

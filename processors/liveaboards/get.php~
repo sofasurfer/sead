@@ -1,0 +1,35 @@
+<?php
+/**
+ * Get Tour Detail Page
+ *
+ * @param integer $id The ID of the tour
+ *
+ * @package modx
+ * @subpackage processors.tour
+ */
+// set log level
+
+
+$_DATA = $modx->fromJSON($scriptProperties['data']);
+
+$_DATA['id'] = $scriptProperties['id'];
+
+if (empty($_DATA['id'])) return $modx->error->failure("Error no seadLiveAboard ID in post jSon data!" . print_r($scriptProperties,true) );
+$tour = $modx->getObject('seadLiveAboard',$_DATA['id']);
+if ($tour == null) return $modx->error->failure("Error no seadLiveAboard found:" . $_DATA['id'] );
+
+$tourArray = $tour->toArray();
+
+$tourArray['datestart'] = date("d.m.Y",$tourArray['datestart']);
+$tourArray['dateend'] = date("d.m.Y",$tourArray['dateend']);	
+
+
+// Get Boat
+$boat = $tour->getOne('Boat');
+$tourArray['boatname'] = $boat->get('id');
+$tourArray['boatname'] = $boat->get('name');
+
+$modx->log(modX::LOG_LEVEL_INFO, "Get Tour details:" . print_r($tourArray,true) );
+
+return $modx->error->success('',$tourArray);
+

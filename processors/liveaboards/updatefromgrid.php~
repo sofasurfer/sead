@@ -1,0 +1,63 @@
+<?php
+/**
+ * Update a Liveaboard
+ *
+ * @param integer $id The ID of the liveaboard
+ *
+ * @package modx
+ * @subpackage processors.liveaboard
+ */
+$_DATA = $modx->fromJSON($scriptProperties['data']);
+
+if (empty($_DATA['id'])) return $modx->error->failure("Error no Liveaboard ID");
+$liveaboard = $modx->getObject('seadLiveAboard',$_DATA['id']);
+if ($liveaboard == null) return $modx->error->failure("Error no Liveaboard found");
+
+// check if boatid is changed
+$added = 0;
+$deleted = 0;
+if( $_DATA['boatid'] > 0 && $_DATA['boatid'] != $liveaboard->get('boatid') ){
+
+	// delete all old rates
+	$deleted = $modx->removeCollection('seadRate', array('productcode' => $liveaboard->get('productcode') ) );
+
+	// get all cabins
+	$cabins = $modx->getCollection('seadBoatCabin', array('boatid' => $_DATA['boatid'] ) );
+
+	foreach( $cabins as $cabin ){
+
+		// add rate
+		$rateItem = $modx->newObject('seadRate');
+		$rateItem->set('productcode', $liveaboard->get('productcode') );
+		$rateItem->set('typeid', $cabin->get('typeid') );
+		$rateItem->set('price', 0 );
+		$rateItem->set('currency', 'THB' );
+		$rateItem->save();
+		$added++;	
+	}
+}
+
+
+$liveaboard->fromArray($_DATA);
+
+$liveaboard->set('datestart', strtotime($_DATA['datestart']) );
+$liveaboard->set('dateend', strtotime($_DATA['dateend']) );
+
+// get countryid
+$destination = $liveaboard->getOne('Destination');
+if( !empty($destination) ){
+	$liveaboard->set('countryid', $destination->get('countryid') );
+}
+
+$liveaboard->set('lastupdate', time() );
+$liveaboard->set('editor', $modx->user->get('username') );
+
+if ( $liveaboard->save() == false ) {
+    return $modx->error->failure("Error while saving liveaboard information");
+}
+
+// delete destination cache file
+$modx->log(modX::LOG_LEVEL_ERROR, "Update Liveaboard :" . $_DATA['id'] );
+
+
+return $modx->error->success();

@@ -1,0 +1,61 @@
+<div id="tv{$tv->id}" name="tv{$tv->id}"></div>
+<script type="text/javascript">
+// <![CDATA[
+
+{literal}
+/**
+ * Set Rates Grid
+ */
+MODx.grid.Rates = function(config) {
+
+   	config = config || {};
+    Ext.applyIf(config,{
+		url: MODx.config.connectors_url+'sead/rates.php'
+        ,fields:['id', 'categoryid', 'typeid','typename', 'price', 'currency', 'season', 'dateend', 'datestart','duration', 'season', 'remarks', 'menu']
+		,baseParams: {
+		    action: 'getlist'
+		    ,productcode: config.productcode
+		}                
+        ,paging: true
+        ,columns: [{
+            header: _('sead.title_id')
+            ,dataIndex: 'id'
+            ,hidden: false
+        },{
+            header: _('sead.title_season')
+            ,dataIndex: 'season'
+            ,hidden: true
+        },{
+            header: _('sead.title_startdate')
+            ,dataIndex: 'datestart'
+            ,sortable: true
+            ,editor: { xtype: 'textfield' }
+        },{
+            header: _('sead.title_enddate')
+            ,dataIndex: 'dateend'
+            ,sortable: true
+            ,editor: { xtype: 'textfield' }
+        }]
+    });
+    MODx.grid.Rates.superclass.constructor.call(this,config);
+};
+
+Ext.extend(MODx.grid.Rates,MODx.grid.Grid);
+Ext.reg('sead-grid-rates',MODx.grid.Rates);	
+
+
+MODx.load({
+{/literal}
+    xtype: 'sead-grid-rates'
+    ,name: 'tv{$tv->id}'
+    ,productcode: 'tv{$tv->code}'
+    ,hiddenName: 'tv{$tv->code}'
+    ,transform: 'tv{$tv->id}'
+    ,id: 'tv{$tv->id}'
+    ,value: '{$tv->value}'
+{literal}
+    ,listeners: { 'select': { fn:MODx.fireResourceFormChange, scope:this}}
+});
+{/literal}
+// ]]>
+</script>

@@ -1,0 +1,36 @@
+<form action="[[~820]]" method="GET" onsubmit="return validateQuickSearch();" class="form">
+
+	<select  id="tripBooking" name="trip" onchange="setCountryDropdown();">
+		<option value="0">-- [[%select? &namespace=`sead` ]] --</option>
+		<option value="1">[[%quick_search_type1? &namespace=`sead` ]]</option>
+		<option value="2">[[%quick_search_type2? &namespace=`sead` ]]</option>
+		<!--option value="3">[[%quick_search_type3? &namespace=`sead` ]]</option-->
+		<option value="4">[[%quick_search_type4? &namespace=`sead` ]]</option>
+		<option value="5">[[%quick_search_type5? &namespace=`sead` ]]</option>
+		<option value="6">[[%quick_search_type6? &namespace=`sead` ]]</option>
+		<option value="7">[[%quick_search_type7? &namespace=`sead` ]]</option>
+	</select>
+
+	<div style="float:left;padding-right:30px;">
+		<label>[[%country? &namespace=`sead` ]]:</label>
+		<select  id="countryBooking" name="country" onchange="setDestinationDropdown();" style="width:150px;">
+			<option value="0">-- [[%selecttrip? &namespace=`sead` ]] --</option>
+		</select>
+
+		<label>[[%arrival? &namespace=`sead` ]]:</label>
+		<input type="text" id="arrivalBooking" name="arrival" style="width:130px;" />
+
+	</div>
+	<div style="float:left;">
+
+		<label>[[%destination? &namespace=`sead` ]]:</label>
+		<select  id="destinationBooking" name="destination" style="width:150px;">
+			<option value="0">-- [[%selectcountry? &namespace=`sead` ]] --</option>
+		</select>
+		<label>[[%departure? &namespace=`sead` ]]:</label>
+		<input type="text" id="departureBooking" name="departure" style="width:130px;" />
+	</div>
+
+	<div class="space"></div>
+	<input type="submit" class="button" value="[[%search? &namespace=`sead` ]]" />
+</form>

@@ -1,0 +1,60 @@
+[[!FormIt?
+   &hooks=`hookbooking,email,redirect`
+   &emailUseFieldForSubject=`1`
+   &emailTpl=`BookingFormEmail`
+   &emailFromName=`[[+fromname]]`
+   &emailTo=`info@southeastasiadreams.com`
+   &emailBCC=`kib@sofasurfer.ch`
+   &redirectTo=`1232`
+   &validate=`name:required,
+      email:email:required,
+      bookingArrival:required,
+      bookingDeparture:required
+]]
+[[!+fi.error.error_message:notempty=`<p>[[!+fi.error.error_message]]</p>`]]
+<form action="[[~[[*id]]]]?checkout=1"  method="post" class="bookingForm">
+    <input type="hidden" name="nospam:blank" value="" />
+    <input type="hidden" name="cachekey" value="[[+cachekey]]" />
+    <input type="hidden" name="fromname" value="[[++site_name]]" />
+    <input type="hidden" name="subject" value="Booking Confirmation: [[++site_name]]" />
+    
+    <div class="col1">
+	    <label for="bookingArrival">Arrival Date: *</label>
+	    <input type="text" class="date" name="bookingArrival" id="bookingArrival" value="[[!+fi.bookingArrival]]" /> 
+	    <span class="errorspace">[[!+fi.error.bookingArrival]]</span>
+
+	    <label for="name">Name: *</label>
+	    <input type="text" name="name" id="name" value="[[!+fi.name]]" /> 
+	    <span class="errorspace">[[!+fi.error.name]]</span>
+
+	    <label for="phone">Phone:</label>
+	    <input type="text" name="phone" id="phone" value="[[!+fi.phone]]" />
+	    <span class="errorspace">[[!+fi.error.phone]]</span>
+    </div>
+    <div class="col2">
+
+	    <label for="bookingDeparture">Departure Date: *</label>
+	    <input type="text" class="date" name="bookingDeparture" id="bookingDeparture" value="[[!+fi.bookingDeparture]]" /> 
+	    <span class="errorspace">[[!+fi.error.bookingDeparture]]</span>
+
+	    <label for="email">Email: *</label>
+	    <input type="text" name="email" id="email" value="[[!+fi.email]]" />
+	    <span class="errorspace">[[!+fi.error.email]]</span>
+
+	    <label for="nationality">Nationality:</label>
+	    <input type="text" name="nationality" id="nationality" value="[[!+fi.nationality]]" />
+	    <span class="errorspace">[[!+fi.error.fax]]</span>
+    </div>
+    <div class="space"></div>
+
+    <label for="text">Remarks:</label><br/>
+    <span class="error">[[!+fi.error.text]]</span>
+    <textarea name="text" id="text" rows="7" value="[[!+fi.text]]" style="width:100%;">[[!+fi.text]]</textarea> 
+
+    <div class="space"></div>
+ 
+    <div class="form-buttons" style="float:right;">
+        <input type="submit" class="button" value="Submit Booking" />
+    </div>
+    <br class="space" />
+</form>
