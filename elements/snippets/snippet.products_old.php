@@ -1175,6 +1175,7 @@ if( $scriptProperties['type'] == 'basket' ){
 	    `Tour`.typeid as tourtypeid
 	');
 	$c->sortby('sortorder','ASC');
+	$c->sortby('seadRate.datestart','ASC');
 	$c->sortby('tourtypeid','ASC');
 
 	// get collection
